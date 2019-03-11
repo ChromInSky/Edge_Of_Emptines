@@ -13,15 +13,14 @@ public class GameController: MonoBehaviour
      bool Starttext;
 
     //ITEMS//
-    bool Soul_Crystal;
-    bool Key;
-    bool bottle;
-    bool bottle_of_blood;
-    bool broken_crystal;
-    bool crystal;
-    bool note;
-
-    //ITEMS//
+    public bool Soul_Crystal;
+    public bool Key;
+    public bool bottle;
+    public bool bottle_of_blood;
+    public bool broken_crystal;
+    public bool crystal;
+    public bool note;
+    //end ITEMS//
 
     public enum States
     {
@@ -31,7 +30,7 @@ public class GameController: MonoBehaviour
         fall,
         cathedral,
         altar,
-        slt,
+        book,
         undergrounds,
         abattoir,
         catacombs,
@@ -57,32 +56,28 @@ public class GameController: MonoBehaviour
         ml2,
         ml3,
         wrong,
+        demonsaltar,
+        demonsaltarwrong,
     };
 
     States myState;
 
     // A - , S - , D - , F - , G - 
 
-    void Start()
+   public void Start()
     {
         
         myState = States.gamestart;
         Starttext = true;
-        bool Soul_Crystal = false;
-        bool Key = false;
-        bool bottle = false;
-        bool bottle_of_blood = false;
-        bool broken_crystal = false;
-        bool crystal = false;
-        bool note = false;
+        
     }
 
 
-    void Update()
+   public void Update()
     {
         if (Input.GetKey(KeyCode.Return) && Starttext == true)
         {
-            myState = States.platform;
+            myState = States.starthistory;
             Starttext = false;
         }
 
@@ -110,9 +105,9 @@ public class GameController: MonoBehaviour
         {
             state_altar();
         }
-        else if (myState == States.slt)
+        else if (myState == States.book)
         {
-            state_slt();
+            state_book();
         }
         else if (myState == States.undergrounds)
         {
@@ -214,6 +209,14 @@ public class GameController: MonoBehaviour
         {
             state_necropolis();
         }
+        else if (myState == States.demonsaltar)
+        {
+            state_demonsaltar();
+        }
+        else if (myState == States.demonsaltarwrong)
+        {
+            state_demonsaltarwrong();
+        }
     }
     
     //All Game States
@@ -221,81 +224,133 @@ public class GameController: MonoBehaviour
     void state_gamestart()
     {
         text.text = "Press ENTER to START";
-        help.text = "";
-
+        help.text = "press BACKSPACE to restart";
+        bool Soul_Crystal = false;
+        bool Key = false;
+        bool bottle = false;
+        bool bottle_of_blood = false;
+        bool broken_crystal = false;
+        bool crystal = false;
+        bool note = false;
+    }
+    void state_starthistory()
+    {
+        text.text = "You wake up in a strange silence, you hear only the noise of empty space, strange purple haze around, you do not know what kind of place this is or how you got here, you know one thing must be some way out of here.";
+        help.text = "Press SPACE to skip";
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            myState = States.platform;
+        }
+         
     }
     void state_platform()
     {
-        
 
-        help.text = "WORK!";
 
-        text.text = "";
+        help.text = "A - cathedral, Q - Platform Edge , W - PORTALS, E - The Machine, D - Maze, S - Demon's Altar";
+
+        text.text = "You stand on a strange platform suspended in infinite space, the platform seems stable";
 
         if (Input.GetKeyDown(KeyCode.A))
         {
             myState = States.cathedral;
         }
 
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            myState = States.portals;
-        }
-
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             myState = States.fall;
         }
 
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            myState = States.portals;
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
         {
             myState = States.machine;
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.D))
         {
-            myState = States.cathedral;
+            myState = States.maze;
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (Input.GetKeyDown(KeyCode.S) && Key == true)
         {
-            myState = States.cathedral;
+            myState = States.demonsaltar;
         }
-    }
-    void state_starthistory()
-    {
-        text.text = "Press ENTER to START";
-        help.text = "";
+        if(Input.GetKeyDown(KeyCode.S) && Key == false)
+        {
+            myState = States.demonsaltarwrong;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Backspace))
+        {
+            myState = States.gamestart;
+        }
     }
     void state_fall()
     {
-        text.text = "Sapadłeś";
+        text.text = "You stumbled and fell into the abyss";
         help.text = "Press BACKSPACE to RESTART";
 
     }
     void state_cathedral()
     {
-        text.text = "Press ENTER to START";
-        help.text = "";
-
+        text.text = "You are in a strange building reminiscent of the cathedral, the only thing in it is an altar and descent down to the underground ";
+        help.text = "A - undergrounds , S - altar , D - platform";
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            myState = States.undergrounds;
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            myState = States.altar;
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            myState = States.platform;
+        }
     }
     void state_altar()
     {
-        text.text = "Press ENTER to START";
-        help.text = "";
-
+        text.text = "You went to the altar, you saw a strange book on it";
+        help.text = "A - look at book , S - back to cathedra's center";
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            myState = States.book;
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            myState = States.cathedral;
+        }
     }
-    void state_slt()
+    void state_book()
     {
-        text.text = "Press ENTER to START";
-        help.text = "";
-
+        text.text = "You look at the book but you can not read the strange letters it has been written";
+        help.text = "S - to stop looking at the book";
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            myState = States.altar;
+        }
     }
     void state_undergrounds()
     {
-        text.text = "Press ENTER to START";
-        help.text = "";
-
+        text.text = "W podziemiach jest cimno, zimno i wilgotnie";
+        help.text = "A - abattoir, S - back to cathedral D - catacombs";
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            myState = States.abattoir;
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            myState = States.cathedral;
+        }
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            myState = States.catacombs;
+        }
     }
     void state_abattoir()
     {
@@ -439,6 +494,21 @@ public class GameController: MonoBehaviour
     {
         text.text = "Press ENTER to START";
         help.text = "";
+
+    }
+    void state_demonsaltar()
+    {
+        text.text = "Press ENTER to START";
+        help.text = "";
+    }
+    void state_demonsaltarwrong()
+    {
+        text.text = "unfortunately I have to have a key to go there";
+        help.text = "S - to back on platform";
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            myState = States.platform;
+        }
 
     }
 }

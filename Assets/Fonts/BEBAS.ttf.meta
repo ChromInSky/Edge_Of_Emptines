@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 6d39cfa37a4ad5c4dbf884f083f365c6
-timeCreated: 1552237331
+guid: 1872a70dbd4273c4dac9279fc40cbb20
+timeCreated: 1552315480
 licenseType: Free
 TrueTypeFontImporter:
   serializedVersion: 4
@@ -9,8 +9,9 @@ TrueTypeFontImporter:
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
-  fontName: 
-  fontNames: []
+  fontName: Bebas
+  fontNames:
+  - Bebas
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
